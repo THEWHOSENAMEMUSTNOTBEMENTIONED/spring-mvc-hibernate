@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+</head>
+<body>
+
+<div align="center">
+    <h1>All Users</h1>
+    <a href="/user/add">Add new User</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">User ID</td>
+            <td th:text="${user.name}">Name</td>
+            <td th:text="${user.surname}">Surname</td>
+            <td th:text="${user.department}">Department</td>
+            <td>
+                <!-- Добавим ссылки на редактирование и удаление -->
+                <a th:href="@{'/user/edit?id=' + ${user.id}}">Edit</a> |
+                <a th:href="@{'/user/delete?id=' + ${user.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

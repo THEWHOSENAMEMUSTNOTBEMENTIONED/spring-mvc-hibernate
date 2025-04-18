@@ -5,7 +5,8 @@ import java.util.List;
 
 public interface UserService {
     List<User> getAllUsers();
-    void saveUser(User user);
+    void saveUser(User user); // Для добавления нового пользователя
+    void updateUser(User user); // Для обновления существующего пользователя
     User getUser(int id);
     void deleteUser(int id);
 }

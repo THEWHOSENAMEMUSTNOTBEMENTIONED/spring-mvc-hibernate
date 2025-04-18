@@ -20,9 +20,16 @@ public class UserServiceImpl implements UserService {
         return userDAO.getAllUsers();
     }
 
+    // Для создания нового пользователя
     @Override
     public void saveUser(User user) {
-        userDAO.saveUser(user);
+        userDAO.createUser(user);  // Создание нового пользователя
+    }
+
+    // Для обновления существующего пользователя
+    @Override
+    public void updateUser(User user) {
+        userDAO.updateUser(user);  // Обновление существующего пользователя
     }
 
     @Override
@@ -35,4 +42,3 @@ public class UserServiceImpl implements UserService {
         userDAO.deleteUser(id);
     }
 }
-

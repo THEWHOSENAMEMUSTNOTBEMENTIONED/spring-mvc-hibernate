@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,40 +27,35 @@ public class UserController {
     }
 
     @GetMapping("/user/add")
-    public String showAddUserForm() {
+    public String showAddUserForm(Model model) {
+        model.addAttribute("user", new User());  // Новый объект User для создания
         return "add-user";
     }
 
+    // Для добавления нового пользователя
     @PostMapping("/user/add")
-    public String addUser(@RequestParam String name, @RequestParam String surname, @RequestParam String department) {
-        User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        user.setDepartment(department);
-        userService.saveUser(user);
+    public String addUser(@ModelAttribute User user) {
+        userService.saveUser(user);  // Создание нового пользователя
         return "redirect:/users";
     }
 
     @GetMapping("/user/edit")
-    public String showEditUserForm(@RequestParam("id") int id, Model model) {  // Исправлено на int id
-        User user = userService.getUser(id);
+    public String showEditUserForm(@RequestParam("id") int id, Model model) {
+        User user = userService.getUser(id);  // Получение пользователя для редактирования
         model.addAttribute("user", user);
         return "edit-user";
     }
 
+    // Для редактирования существующего пользователя
     @PostMapping("/user/edit")
-    public String editUser(@RequestParam("id") int id, @RequestParam String name, @RequestParam String surname, @RequestParam String department) {
-        User user = userService.getUser(id);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setDepartment(department);
-        userService.saveUser(user);
+    public String editUser(@ModelAttribute User user) {
+        userService.updateUser(user);  // Обновление существующего пользователя
         return "redirect:/users";
     }
 
     @GetMapping("/user/delete")
-    public String deleteUser(@RequestParam("id") int id) {  // Исправлено на int id
-        userService.deleteUser(id);
+    public String deleteUser(@RequestParam("id") int id) {
+        userService.deleteUser(id);  // Удаление пользователя
         return "redirect:/users";
     }
 }

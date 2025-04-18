@@ -18,26 +18,28 @@ public class UserDAOImpl implements UserDAO {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
 
+    // Метод для создания нового пользователя
     @Override
-    public void saveUser(User user) {
-        if (user.getId() == 0) {
-            entityManager.persist(user);
-        } else {
-            entityManager.merge(user);
-        }
+    public void createUser(User user) {
+        entityManager.persist(user);  // Используем persist для добавления нового пользователя
+    }
+
+    // Метод для обновления существующего пользователя
+    @Override
+    public void updateUser(User user) {
+        entityManager.merge(user);  // Используем merge для обновления существующего пользователя
     }
 
     @Override
     public User getUser(int id) {
-        return entityManager.find(User.class, id);
+        return entityManager.find(User.class, id);  // Ищем пользователя по ID
     }
 
     @Override
-    @Transactional  // Эта аннотация должна гарантировать, что транзакция будет активирована
+    @Transactional
     public void deleteUser(int id) {
         entityManager.createQuery("delete from User where id=:id")
                 .setParameter("id", id)
-                .executeUpdate();
+                .executeUpdate();  // Удаляем пользователя по ID
     }
 }
-
